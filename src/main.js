@@ -17,7 +17,7 @@ const pageMain = document.querySelector(`.main`);
 const pageControl = document.querySelector(`.main__control`);
 
 render(pageControl, createMenuTemplate(), `beforeend`);
-render(pageMain, createFiltersTemplate(), `beforeend`);
+render(pageMain, createFiltersTemplate(tasks), `beforeend`);
 render(pageMain, createBoardTemplate(), `beforeend`);
 
 const pageBoard = document.querySelector(`.board`);
