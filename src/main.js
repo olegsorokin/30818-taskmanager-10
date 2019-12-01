@@ -4,8 +4,10 @@ import {createBoardTemplate} from './components/board';
 import {createTaskEditTemplate} from './components/task-edit';
 import {createTaskTemplate} from './components/task';
 import {createLoadMoreButtonTemplate} from './components/load-more-button';
+import {generateTask, generateTasks} from './mock/task';
 
 const TASK_COUNT = 3;
+const tasks = generateTasks(TASK_COUNT);
 
 const render = (container, template, place) => {
   container.insertAdjacentHTML(place, template);
@@ -21,10 +23,8 @@ render(pageMain, createBoardTemplate(), `beforeend`);
 const pageBoard = document.querySelector(`.board`);
 const pageTasks = document.querySelector(`.board__tasks`);
 
-render(pageTasks, createTaskEditTemplate(), `beforeend`);
+render(pageTasks, createTaskEditTemplate(generateTask()), `beforeend`);
 
-new Array(TASK_COUNT)
-  .fill(``)
-  .forEach(() => render(pageTasks, createTaskTemplate(), `beforeend`));
+tasks.forEach((task) => render(pageTasks, createTaskTemplate(task), `beforeend`));
 
 render(pageBoard, createLoadMoreButtonTemplate(), `beforeend`);
