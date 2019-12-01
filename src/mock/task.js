@@ -13,7 +13,7 @@ const getDescription = () => {
 const getDueDate = () => {
   const DAYS_COUNT = 7;
   const targetDate = new Date();
-  const diffValue = getRandomInteger(DAYS_COUNT * -1, DAYS_COUNT);
+  const diffValue = getRandomInteger(-DAYS_COUNT, DAYS_COUNT);
 
   return targetDate.setDate(targetDate.getDate() + diffValue);
 };
