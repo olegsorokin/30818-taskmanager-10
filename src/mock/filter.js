@@ -1,14 +1,11 @@
-const calculateOverdueTasksCount = (tasks) => {
-  const currentDate = new Date().getTime();
+import {isOverdue, isToday} from '../utils/date-time';
 
-  return tasks.filter((task) => task.dueDate < currentDate).length;
+const calculateOverdueTasksCount = (tasks) => {
+  return tasks.filter((task) => isOverdue(task.dueDate)).length;
 };
 
 const calculateTodayTasksCount = (tasks) => {
-  const startOfCurrentDay = new Date().setHours(0, 0, 0, 0);
-  const endOfCurrentDay = new Date().setHours(23, 59, 59, 999);
-
-  return tasks.filter((task) => task.dueDate >= startOfCurrentDay && task.dueDate <= endOfCurrentDay).length;
+  return tasks.filter((task) => isToday(task.dueDate)).length;
 };
 
 const calculateFavoritesTasksCount = (tasks) => {
@@ -27,7 +24,7 @@ const calculateArchivesTasksCount = (tasks) => {
   return tasks.filter((task) => task.isArchive).length;
 };
 
-const generateFilters = (tasks) => {
+const generateFilter = (tasks) => {
   return (
     [
       {
@@ -62,4 +59,4 @@ const generateFilters = (tasks) => {
   );
 };
 
-export {generateFilters};
+export {generateFilter};

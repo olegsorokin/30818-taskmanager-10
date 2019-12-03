@@ -1,10 +1,11 @@
-import {formatDate, formatTime} from '../utils/date-time';
+import {formatDate, formatTime, isOverdue} from '../utils/date-time';
 
-export const createTaskTemplate = ({description, dueDate, tags, color}) => {
-  const taskDate = formatDate(dueDate);
-  const taskTime = formatTime(dueDate);
+const createHashtagsTemplate = (tags) => {
+  if (!tags) {
+    return ``;
+  }
 
-  const taskTagsTemplate = [...tags]
+  const hashtags = [...tags]
     .map((item) => {
       return (
         `<span class="card__hashtag-inner">
@@ -13,10 +14,45 @@ export const createTaskTemplate = ({description, dueDate, tags, color}) => {
           </span>
         </span>`
       );
-    }).join(``);
+    }).join(`\n`);
 
   return (
-    `<article class="card card--${color}">
+    `<div class="card__hashtag">
+      <div class="card__hashtag-list">
+        ${hashtags}
+      </div>
+    </div>`
+  );
+};
+
+const createDueDateTemplate = (dueDate) => {
+  if (!dueDate) {
+    return ``;
+  }
+
+  const taskDate = formatDate(dueDate);
+  const taskTime = formatTime(dueDate);
+
+  return (
+    `<div class="card__dates">
+      <div class="card__date-deadline">
+        <p class="card__input-deadline-wrap">
+          <span class="card__date">${taskDate}</span>
+          <span class="card__time">${taskTime}</span>
+        </p>
+      </div>
+    </div>`
+  );
+};
+
+const createTaskTemplate = ({description, dueDate, repeatingDays, tags, color}) => {
+  const hasDueDate = Boolean(dueDate);
+
+  const hasRepeatingDaysClass = (hasDueDate && Object.values(repeatingDays).some(Boolean)) ? `card--repeat` : ``;
+  const deadlineClass = isOverdue(dueDate) ? `card--deadline` : ``;
+
+  return (
+    `<article class="card card--${color} ${hasRepeatingDaysClass} ${deadlineClass}">
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
@@ -46,18 +82,8 @@ export const createTaskTemplate = ({description, dueDate, tags, color}) => {
 
           <div class="card__settings">
             <div class="card__details">
-              <div class="card__dates">
-                <div class="card__date-deadline">
-                  <p class="card__input-deadline-wrap">
-                    <span class="card__date">${taskDate}</span>
-                    <span class="card__time">${taskTime}</span>
-                  </p>
-                </div>
-              </div>
-
-              <div class="card__hashtag">
-                <div class="card__hashtag-list">${taskTagsTemplate}</div>
-              </div>
+              ${createDueDateTemplate(dueDate)}
+              ${createHashtagsTemplate(tags)}
             </div>
           </div>
         </div>
@@ -65,3 +91,5 @@ export const createTaskTemplate = ({description, dueDate, tags, color}) => {
     </article>`
   );
 };
+
+export {createTaskTemplate};

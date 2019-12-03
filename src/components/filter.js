@@ -1,8 +1,8 @@
-import {generateFilters} from '../mock/filter';
+import {generateFilter} from '../mock/filter';
 
-const createFiltersList = (tasks) => {
+const createFilterMarkup = (tasks) => {
   return (
-    generateFilters(tasks)
+    generateFilter(tasks)
       .map(({title, count}) => {
         return (
           `<input
@@ -18,14 +18,14 @@ const createFiltersList = (tasks) => {
           >`
         );
       })
-      .join(``)
+      .join(`\n`)
   );
 };
 
-const createFiltersTemplate = (tasks) => {
+const createFilterTemplate = (tasks) => {
   return (
-    `<section class="main__filter filter container">${createFiltersList(tasks)}</section>`
+    `<section class="main__filter filter container">${createFilterMarkup(tasks)}</section>`
   );
 };
 
-export {createFiltersTemplate};
+export {createFilterTemplate};
