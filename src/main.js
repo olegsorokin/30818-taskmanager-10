@@ -6,7 +6,7 @@ import {createTaskTemplate} from './components/task';
 import {createLoadMoreButtonTemplate} from './components/load-more-button';
 import {generateTasks} from './mock/task';
 
-const TASK_COUNT = 4;
+const TASK_COUNT = 22;
 const TASKS_PER_PAGE = 8;
 const tasks = generateTasks(TASK_COUNT);
 
@@ -26,6 +26,22 @@ const pageTasks = document.querySelector(`.board__tasks`);
 
 render(pageTasks, createTaskEditTemplate(tasks[0], 0), `beforeend`);
 
-tasks.slice(1, TASKS_PER_PAGE).forEach((task) => render(pageTasks, createTaskTemplate(task), `beforeend`));
+let showingTaskCount = TASKS_PER_PAGE;
+tasks.slice(1, showingTaskCount).forEach((task) => render(pageTasks, createTaskTemplate(task), `beforeend`));
 
-render(pageBoard, createLoadMoreButtonTemplate(), `beforeend`);
+if (TASK_COUNT >= TASKS_PER_PAGE) {
+  render(pageBoard, createLoadMoreButtonTemplate(), `beforeend`);
+
+  const loadMoreButton = document.querySelector(`.load-more`);
+  loadMoreButton.addEventListener(`click`, () => {
+    const prevTasksCount = showingTaskCount;
+    showingTaskCount += TASKS_PER_PAGE;
+
+    tasks.slice(prevTasksCount, showingTaskCount)
+      .forEach((task) => render(pageTasks, createTaskTemplate(task), `beforeend`));
+
+    if (showingTaskCount >= tasks.length) {
+      loadMoreButton.remove();
+    }
+  });
+}
