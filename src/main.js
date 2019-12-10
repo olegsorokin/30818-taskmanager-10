@@ -5,14 +5,11 @@ import {createTaskEditTemplate} from './components/task-edit';
 import {createTaskTemplate} from './components/task';
 import {createLoadMoreButtonTemplate} from './components/load-more-button';
 import {generateTasks} from './mock/task';
+import {render, RenderPosition} from './utils';
 
 const TASK_COUNT = 22;
 const TASKS_PER_PAGE = 8;
 const tasks = generateTasks(TASK_COUNT);
-
-const render = (container, template, place) => {
-  container.insertAdjacentHTML(place, template);
-};
 
 const pageMain = document.querySelector(`.main`);
 const pageControl = document.querySelector(`.main__control`);
