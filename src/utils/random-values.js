@@ -3,7 +3,7 @@ const getRandomBoolean = () => {
 };
 
 const getRandomInteger = (min, max) => {
-  return min + Math.round(Math.random() * (max - min));
+  return min + Math.floor(Math.random() * (max - min + 1));
 };
 
 const getRandomArrayItem = (arr) => {
