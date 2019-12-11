@@ -2,7 +2,7 @@ import SiteMenu from './components/site-menu';
 import Filter from './components/filter';
 import Board from './components/board';
 import {createTaskEditTemplate} from './components/task-edit';
-import {createTaskTemplate} from './components/task';
+import Task from './components/task';
 import LoadMoreButton from './components/load-more-button';
 import {generateTasks} from './mock/task';
 import {render, RenderPosition} from './utils';
@@ -24,7 +24,7 @@ const pageTasks = document.querySelector(`.board__tasks`);
 render(pageTasks, createTaskEditTemplate(tasks[0], 0), `beforeend`);
 
 let showingTaskCount = TASKS_PER_PAGE;
-tasks.slice(1, showingTaskCount).forEach((task) => render(pageTasks, createTaskTemplate(task), `beforeend`));
+tasks.slice(1, showingTaskCount).forEach((task) => render(pageTasks, new Task(task).getElement(), `beforeend`));
 
 if (TASK_COUNT >= TASKS_PER_PAGE) {
   render(pageBoard, new LoadMoreButton().getElement(), `beforeend`);
@@ -35,7 +35,7 @@ if (TASK_COUNT >= TASKS_PER_PAGE) {
     showingTaskCount += TASKS_PER_PAGE;
 
     tasks.slice(prevTasksCount, showingTaskCount)
-      .forEach((task) => render(pageTasks, createTaskTemplate(task), `beforeend`));
+      .forEach((task) => render(pageTasks, new Task(task).getElement(), `beforeend`));
 
     if (showingTaskCount >= tasks.length) {
       loadMoreButton.remove();

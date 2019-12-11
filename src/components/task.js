@@ -1,4 +1,5 @@
 import {formatDate, formatTime, isOverdue} from '../utils/date-time';
+import {createElement} from '../utils';
 
 const createHashtagsTemplate = (tags) => {
   if (!tags) {
@@ -92,4 +93,25 @@ const createTaskTemplate = ({description, dueDate, repeatingDays, tags, color}) 
   );
 };
 
-export {createTaskTemplate};
+export default class Task {
+  constructor(task) {
+    this._task = task;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTaskTemplate(this._task);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
