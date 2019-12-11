@@ -3,7 +3,7 @@ import Filter from './components/filter';
 import Board from './components/board';
 import {createTaskEditTemplate} from './components/task-edit';
 import {createTaskTemplate} from './components/task';
-import {createLoadMoreButtonTemplate} from './components/load-more-button';
+import LoadMoreButton from './components/load-more-button';
 import {generateTasks} from './mock/task';
 import {render, RenderPosition} from './utils';
 
@@ -27,7 +27,7 @@ let showingTaskCount = TASKS_PER_PAGE;
 tasks.slice(1, showingTaskCount).forEach((task) => render(pageTasks, createTaskTemplate(task), `beforeend`));
 
 if (TASK_COUNT >= TASKS_PER_PAGE) {
-  render(pageBoard, createLoadMoreButtonTemplate(), `beforeend`);
+  render(pageBoard, new LoadMoreButton().getElement(), `beforeend`);
 
   const loadMoreButton = document.querySelector(`.load-more`);
   loadMoreButton.addEventListener(`click`, () => {
