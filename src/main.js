@@ -1,5 +1,5 @@
 import SiteMenu from './components/site-menu';
-import {createFilterTemplate} from './components/filter';
+import Filter from './components/filter';
 import {createBoardTemplate} from './components/board';
 import {createTaskEditTemplate} from './components/task-edit';
 import {createTaskTemplate} from './components/task';
@@ -15,7 +15,7 @@ const pageMain = document.querySelector(`.main`);
 const pageControl = document.querySelector(`.main__control`);
 
 render(pageControl, new SiteMenu().getElement(), `beforeend`);
-render(pageMain, createFilterTemplate(tasks), `beforeend`);
+render(pageMain, new Filter(tasks).getElement(), `beforeend`);
 render(pageMain, createBoardTemplate(), `beforeend`);
 
 const pageBoard = document.querySelector(`.board`);
