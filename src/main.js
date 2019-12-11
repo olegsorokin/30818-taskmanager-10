@@ -1,9 +1,9 @@
-import SiteMenu from './components/site-menu';
-import Filter from './components/filter';
-import Board from './components/board';
-import TaskEdit from './components/task-edit';
-import Task from './components/task';
-import LoadMoreButton from './components/load-more-button';
+import SiteMenuComponent from './components/site-menu';
+import FilterComponent from './components/filter';
+import BoardComponent from './components/board';
+import TaskEditComponent from './components/task-edit';
+import TaskComponent from './components/task';
+import LoadMoreButtonComponent from './components/load-more-button';
 import {generateTasks} from './mock/task';
 import {render, RenderPosition} from './utils';
 
@@ -14,20 +14,20 @@ const tasks = generateTasks(TASK_COUNT);
 const pageMain = document.querySelector(`.main`);
 const pageControl = document.querySelector(`.main__control`);
 
-render(pageControl, new SiteMenu().getElement(), `beforeend`);
-render(pageMain, new Filter(tasks).getElement(), `beforeend`);
-render(pageMain, new Board().getElement(), `beforeend`);
+render(pageControl, new SiteMenuComponent().getElement(), RenderPosition.BEFOREEND);
+render(pageMain, new FilterComponent(tasks).getElement(), RenderPosition.BEFOREEND);
+render(pageMain, new BoardComponent().getElement(), RenderPosition.BEFOREEND);
 
 const pageBoard = document.querySelector(`.board`);
 const pageTasks = document.querySelector(`.board__tasks`);
 
-render(pageTasks, new TaskEdit(tasks[0], 0).getElement(), `beforeend`);
+render(pageTasks, new TaskEditComponent(tasks[0], 0).getElement(), RenderPosition.BEFOREEND);
 
 let showingTaskCount = TASKS_PER_PAGE;
-tasks.slice(1, showingTaskCount).forEach((task) => render(pageTasks, new Task(task).getElement(), `beforeend`));
+tasks.slice(1, showingTaskCount).forEach((task) => render(pageTasks, new TaskComponent(task).getElement(), RenderPosition.BEFOREEND));
 
 if (TASK_COUNT >= TASKS_PER_PAGE) {
-  render(pageBoard, new LoadMoreButton().getElement(), `beforeend`);
+  render(pageBoard, new LoadMoreButtonComponent().getElement(), RenderPosition.BEFOREEND);
 
   const loadMoreButton = document.querySelector(`.load-more`);
   loadMoreButton.addEventListener(`click`, () => {
@@ -35,7 +35,7 @@ if (TASK_COUNT >= TASKS_PER_PAGE) {
     showingTaskCount += TASKS_PER_PAGE;
 
     tasks.slice(prevTasksCount, showingTaskCount)
-      .forEach((task) => render(pageTasks, new Task(task).getElement(), `beforeend`));
+      .forEach((task) => render(pageTasks, new TaskComponent(task).getElement(), RenderPosition.BEFOREEND));
 
     if (showingTaskCount >= tasks.length) {
       loadMoreButton.remove();
