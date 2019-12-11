@@ -1,7 +1,7 @@
 import SiteMenu from './components/site-menu';
 import Filter from './components/filter';
 import Board from './components/board';
-import {createTaskEditTemplate} from './components/task-edit';
+import TaskEdit from './components/task-edit';
 import Task from './components/task';
 import LoadMoreButton from './components/load-more-button';
 import {generateTasks} from './mock/task';
@@ -21,7 +21,7 @@ render(pageMain, new Board().getElement(), `beforeend`);
 const pageBoard = document.querySelector(`.board`);
 const pageTasks = document.querySelector(`.board__tasks`);
 
-render(pageTasks, createTaskEditTemplate(tasks[0], 0), `beforeend`);
+render(pageTasks, new TaskEdit(tasks[0], 0).getElement(), `beforeend`);
 
 let showingTaskCount = TASKS_PER_PAGE;
 tasks.slice(1, showingTaskCount).forEach((task) => render(pageTasks, new Task(task).getElement(), `beforeend`));
