@@ -1,4 +1,4 @@
-import {createMenuTemplate} from './components/site-menu';
+import SiteMenu from './components/site-menu';
 import {createFilterTemplate} from './components/filter';
 import {createBoardTemplate} from './components/board';
 import {createTaskEditTemplate} from './components/task-edit';
@@ -14,7 +14,7 @@ const tasks = generateTasks(TASK_COUNT);
 const pageMain = document.querySelector(`.main`);
 const pageControl = document.querySelector(`.main__control`);
 
-render(pageControl, createMenuTemplate(), `beforeend`);
+render(pageControl, new SiteMenu().getElement(), `beforeend`);
 render(pageMain, createFilterTemplate(tasks), `beforeend`);
 render(pageMain, createBoardTemplate(), `beforeend`);
 
