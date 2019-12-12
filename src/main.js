@@ -1,6 +1,7 @@
 import SiteMenuComponent from './components/site-menu';
 import FilterComponent from './components/filter';
 import BoardComponent from './components/board';
+import SortComponent from './components/sort';
 import TaskEditComponent from './components/task-edit';
 import TaskComponent from './components/task';
 import LoadMoreButtonComponent from './components/load-more-button';
@@ -57,6 +58,8 @@ render(pageMain, new BoardComponent().getElement(), RenderPosition.BEFOREEND);
 
 const pageBoard = document.querySelector(`.board`);
 const taskListElement = document.querySelector(`.board__tasks`);
+
+render(pageBoard, new SortComponent().getElement(), RenderPosition.AFTERBEGIN);
 
 let showingTaskCount = TASKS_PER_PAGE;
 tasks.slice(0, showingTaskCount)
