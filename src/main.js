@@ -12,17 +12,37 @@ const TASKS_PER_PAGE = 8;
 const tasks = generateTasks(TASK_COUNT);
 
 const renderTask = (task, index) => {
-  const taskComponent = new TaskComponent(task);
-  const taskEditComponent = new TaskEditComponent(task, index);
+  const onEscKeyDown = (evt) => {
+    const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
-  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
-  editButton.addEventListener(`click`, () => {
+    if (isEscKey) {
+      replaceEditToTask();
+      document.removeEventListener(`keydown`, onEscKeyDown);
+    }
+  };
+
+  const replaceEditToTask = () => {
+    taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+  };
+
+  const replaceTaskToEdit = () => {
     taskListElement.replaceChild(taskEditComponent.getElement(), taskComponent.getElement());
+  };
+
+  const taskComponent = new TaskComponent(task);
+  const editButton = taskComponent.getElement().querySelector(`.card__btn--edit`);
+
+  editButton.addEventListener(`click`, () => {
+    replaceTaskToEdit();
+    document.addEventListener(`keydown`, onEscKeyDown);
   });
 
+  const taskEditComponent = new TaskEditComponent(task, index);
   const editForm = taskEditComponent.getElement().querySelector(`form`);
+
   editForm.addEventListener(`submit`, () => {
-    taskListElement.replaceChild(taskComponent.getElement(), taskEditComponent.getElement());
+    replaceEditToTask();
+    document.removeEventListener(`keydown`, onEscKeyDown);
   });
 
   render(taskListElement, taskComponent.getElement(), RenderPosition.BEFOREEND);
@@ -38,10 +58,8 @@ render(pageMain, new BoardComponent().getElement(), RenderPosition.BEFOREEND);
 const pageBoard = document.querySelector(`.board`);
 const taskListElement = document.querySelector(`.board__tasks`);
 
-render(taskListElement, new TaskEditComponent(tasks[0], 0).getElement(), RenderPosition.BEFOREEND);
-
 let showingTaskCount = TASKS_PER_PAGE;
-tasks.slice(1, showingTaskCount)
+tasks.slice(0, showingTaskCount)
   .forEach((task, index) => {
     renderTask(task, index);
   });
