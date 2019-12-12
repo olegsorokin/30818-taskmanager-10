@@ -1,5 +1,6 @@
 import {colors} from '../const';
 import {formatDate, formatTime, isOverdue} from '../utils/date-time';
+import {createElement} from '../utils';
 
 const createHashtagsMarkup = (hashtags) => {
   return hashtags
@@ -71,7 +72,7 @@ const createColorsMarkup = (currentColor, taskIndex) => {
     .join(`\n`);
 };
 
-export const createTaskEditTemplate = ({description, dueDate, repeatingDays, tags, color}, taskIndex) => {
+const createTaskEditTemplate = ({description, dueDate, repeatingDays, tags, color}, taskIndex) => {
   const hasDueDate = Boolean(dueDate);
 
   const hasRepeatingDays = Boolean(Object.values(repeatingDays).some(Boolean));
@@ -158,3 +159,27 @@ export const createTaskEditTemplate = ({description, dueDate, repeatingDays, tag
     </article>`
   );
 };
+
+export default class TaskEdit {
+  constructor(task, taskIndex) {
+    this._task = task;
+    this._taskIndex = taskIndex;
+    this._element = null;
+  }
+
+  getTemplate() {
+    return createTaskEditTemplate(this._task, this._taskIndex);
+  }
+
+  getElement() {
+    if (!this._element) {
+      this._element = createElement(this.getTemplate());
+    }
+
+    return this._element;
+  }
+
+  removeElement() {
+    this._element = null;
+  }
+}
