@@ -4,6 +4,8 @@ import BoardComponent from './components/board';
 import SortComponent from './components/sort';
 import TaskEditComponent from './components/task-edit';
 import TaskComponent from './components/task';
+import TasksComponent from './components/tasks';
+import NoTaskComponent from './components/no-tasks';
 import LoadMoreButtonComponent from './components/load-more-button';
 import {generateTasks} from './mock/task';
 import {render, RenderPosition} from './utils';
@@ -12,7 +14,7 @@ const TASK_COUNT = 22;
 const TASKS_PER_PAGE = 8;
 const tasks = generateTasks(TASK_COUNT);
 
-const renderTask = (task, index) => {
+const renderTask = (taskListElement, task, index) => {
   const onEscKeyDown = (evt) => {
     const isEscKey = evt.key === `Escape` || evt.key === `Esc`;
 
@@ -57,31 +59,37 @@ render(pageMain, new FilterComponent(tasks).getElement(), RenderPosition.BEFOREE
 render(pageMain, new BoardComponent().getElement(), RenderPosition.BEFOREEND);
 
 const pageBoard = document.querySelector(`.board`);
-const taskListElement = document.querySelector(`.board__tasks`);
 
-render(pageBoard, new SortComponent().getElement(), RenderPosition.AFTERBEGIN);
+const isAllTasksArchived = tasks.every((task) => task.isArchive);
 
-let showingTaskCount = TASKS_PER_PAGE;
-tasks.slice(0, showingTaskCount)
-  .forEach((task, index) => {
-    renderTask(task, index);
-  });
+if (isAllTasksArchived) {
+  render(pageBoard, new NoTaskComponent().getElement(), RenderPosition.BEFOREEND);
+} else {
+  render(pageBoard, new SortComponent().getElement(), RenderPosition.BEFOREEND);
+  render(pageBoard, new TasksComponent().getElement(), RenderPosition.BEFOREEND);
 
-if (TASK_COUNT >= TASKS_PER_PAGE) {
-  render(pageBoard, new LoadMoreButtonComponent().getElement(), RenderPosition.BEFOREEND);
+  const taskListElement = document.querySelector(`.board__tasks`);
 
-  const loadMoreButton = document.querySelector(`.load-more`);
-  loadMoreButton.addEventListener(`click`, () => {
+  let showingTaskCount = TASKS_PER_PAGE;
+
+  tasks.slice(0, showingTaskCount)
+    .forEach((task, index) => {
+      renderTask(taskListElement, task, index);
+    });
+
+  const loadMoreButtonComponent = new LoadMoreButtonComponent();
+  render(pageBoard, loadMoreButtonComponent.getElement(), RenderPosition.BEFOREEND);
+
+  loadMoreButtonComponent.getElement().addEventListener(`click`, () => {
     const prevTasksCount = showingTaskCount;
     showingTaskCount += TASKS_PER_PAGE;
 
     tasks.slice(prevTasksCount, showingTaskCount)
-      .forEach((task, index) => {
-        renderTask(task, index);
-      });
+      .forEach((task, index) => renderTask(taskListElement, task, index));
 
     if (showingTaskCount >= tasks.length) {
-      loadMoreButton.remove();
+      loadMoreButtonComponent.getElement().remove();
+      loadMoreButtonComponent.removeElement();
     }
   });
 }
