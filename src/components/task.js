@@ -49,7 +49,7 @@ const createDueDateTemplate = (dueDate) => {
 const createTaskTemplate = ({description, dueDate, repeatingDays, tags, color}) => {
   const hasDueDate = Boolean(dueDate);
 
-  const hasRepeatingDaysClass = (hasDueDate && Object.values(repeatingDays).some(Boolean)) ? `card--repeat` : ``;
+  const hasRepeatingDaysClass = (!hasDueDate && Object.values(repeatingDays).some(Boolean)) ? `card--repeat` : ``;
   const deadlineClass = isOverdue(dueDate) ? `card--deadline` : ``;
 
   return (
