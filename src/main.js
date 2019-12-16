@@ -8,7 +8,7 @@ import TasksComponent from './components/tasks';
 import NoTaskComponent from './components/no-tasks';
 import LoadMoreButtonComponent from './components/load-more-button';
 import {generateTasks} from './mock/task';
-import {render, RenderPosition} from './utils';
+import {render, RenderPosition} from './utils/render';
 
 const TASK_COUNT = 22;
 const TASKS_PER_PAGE = 8;
