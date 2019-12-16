@@ -1,6 +1,6 @@
 import {colors} from '../const';
 import {formatDate, formatTime, isOverdue} from '../utils/date-time';
-import {createElement} from '../utils';
+import AbstractComponent from './abstract-component';
 
 const createHashtagsMarkup = (hashtags) => {
   return hashtags
@@ -160,26 +160,14 @@ const createTaskEditTemplate = ({description, dueDate, repeatingDays, tags, colo
   );
 };
 
-export default class TaskEdit {
+export default class TaskEdit extends AbstractComponent {
   constructor(task, taskIndex) {
-    this._task = task;
+    super();
     this._taskIndex = taskIndex;
-    this._element = null;
+    this._task = task;
   }
 
   getTemplate() {
     return createTaskEditTemplate(this._task, this._taskIndex);
-  }
-
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
   }
 }
