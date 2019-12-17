@@ -1,5 +1,5 @@
 import {formatDate, formatTime, isOverdue} from '../utils/date-time';
-import {createElement} from '../utils';
+import AbstractComponent from './abstract-component';
 
 const createHashtagsTemplate = (tags) => {
   if (!tags) {
@@ -93,25 +93,18 @@ const createTaskTemplate = ({description, dueDate, repeatingDays, tags, color}) 
   );
 };
 
-export default class Task {
+export default class Task extends AbstractComponent {
   constructor(task) {
+    super();
     this._task = task;
-    this._element = null;
   }
 
   getTemplate() {
     return createTaskTemplate(this._task);
   }
 
-  getElement() {
-    if (!this._element) {
-      this._element = createElement(this.getTemplate());
-    }
-
-    return this._element;
-  }
-
-  removeElement() {
-    this._element = null;
+  setEditButtonClickHandler(handler) {
+    this.getElement().querySelector(`.card__btn--edit`)
+      .addEventListener(`click`, handler);
   }
 }
