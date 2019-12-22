@@ -25,7 +25,7 @@ const createHashtagsMarkup = (hashtags) => {
     .join(`\n`);
 };
 
-const createRepeatingDaysMarkup = (repeatingDays, taskIndex) => {
+const createRepeatingDaysMarkup = (repeatingDays, taskIndex = 1) => {
   return Object
     .entries(repeatingDays)
     .map(([key, value]) => {
