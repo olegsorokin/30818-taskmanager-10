@@ -1,6 +1,7 @@
+import flatpickr from 'flatpickr';
+import AbstractSmartComponent from './abstract-smart-component';
 import {COLORS, DAYS} from '../const';
 import {formatDate, formatTime} from '../utils/date-time';
-import AbstractSmartComponent from './abstract-smart-component';
 
 const isRepeating = (repeatingDays) => {
   return Object.values(repeatingDays).some(Boolean);
@@ -119,35 +120,35 @@ const createTaskEditTemplate = (task, options = {}) => {
                   date: <span class="card__date-status">${isDateShowing ? `yes` : `no`}</span>
                 </button>
 
-                ${
-                  isDateShowing ?
-                    `<fieldset class="card__date-deadline">
-                      <label class="card__input-deadline-wrap">
-                        <input
-                        class="card__date"
-                        type="text"
-                        placeholder=""
-                        name="date"
-                        value="${date} ${time}"
-                        />
-                      </label>
-                    </fieldset>`
-                    : ``
-                  }
+  ${
+    isDateShowing ?
+      `<fieldset class="card__date-deadline">
+        <label class="card__input-deadline-wrap">
+          <input
+          class="card__date"
+          type="text"
+          placeholder=""
+          name="date"
+          value="${date} ${time}"
+          />
+        </label>
+      </fieldset>`
+      : ``
+    }
 
                 <button class="card__repeat-toggle" type="button">
                   repeat:<span class="card__repeat-status">${isRepeatingTask ? `yes` : `no`}</span>
                 </button>
 
-                ${
-                  isRepeatingTask ?
-                    `<fieldset class="card__repeat-days">
-                      <div class="card__repeat-days-inner">
-                        ${repeatingDaysMarkup}
-                      </div>
-                    </fieldset>`
-                  : ``
-                }
+  ${
+    isRepeatingTask ?
+      `<fieldset class="card__repeat-days">
+        <div class="card__repeat-days-inner">
+          ${repeatingDaysMarkup}
+        </div>
+      </fieldset>`
+      : ``
+    }
               </div>
 
               <div class="card__hashtag">
