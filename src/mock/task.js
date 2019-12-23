@@ -1,4 +1,4 @@
-import {taskDescriptions, days, colors, tags} from '../const';
+import {taskDescriptions, DAYS, COLORS, tags} from '../const';
 import {getRandomBoolean, getRandomInteger, getRandomArrayItem} from '../utils/random-values';
 
 const getDescription = () => {
@@ -21,7 +21,7 @@ const getRepeatingDays = (dueDate) => {
   const isDataShowing = Boolean(dueDate);
   const repeatingDays = {};
 
-  days.forEach((day) => {
+  DAYS.forEach((day) => {
     repeatingDays[day] = isDataShowing ? false : getRandomBoolean();
   });
 
@@ -37,7 +37,7 @@ const getTags = () => {
 };
 
 const getColor = () => {
-  return getRandomArrayItem(colors);
+  return getRandomArrayItem(COLORS);
 };
 
 const generateTask = () => {
