@@ -1,4 +1,4 @@
-import {remove, render, RenderPosition, replace} from '../utils/render';
+import {remove, render, RenderPosition} from '../utils/render';
 import NoTasksComponent from '../components/no-tasks';
 import SortComponent, {SortType} from '../components/sort';
 import TasksComponent from '../components/tasks';

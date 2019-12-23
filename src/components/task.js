@@ -1,74 +1,56 @@
-import {formatDate, formatTime, isOverdue} from '../utils/date-time';
+import {formatDate, formatTime} from '../utils/date-time';
 import AbstractComponent from './abstract-component';
 
-const createHashtagsTemplate = (tags) => {
-  if (!tags) {
-    return ``;
-  }
-
-  const hashtags = [...tags]
-    .map((item) => {
+const createHashtagsMarkup = (hashtags) => {
+  return hashtags
+    .map((hashtag) => {
       return (
         `<span class="card__hashtag-inner">
-          <span class="card__hashtag-name">
-            #${item}
-          </span>
-        </span>`
+            <span class="card__hashtag-name">
+              #${hashtag}
+            </span>
+          </span>`
       );
-    }).join(`\n`);
+    })
+    .join(`\n`);
+};
 
+const createButtonMarkup = (name, isActive) => {
   return (
-    `<div class="card__hashtag">
-      <div class="card__hashtag-list">
-        ${hashtags}
-      </div>
-    </div>`
+    `<button
+      type="button"
+      class="card__btn card__btn--${name} ${isActive ? `` : `card__btn--disabled`}"
+    >
+      ${name}
+    </button>`
   );
 };
 
-const createDueDateTemplate = (dueDate) => {
-  if (!dueDate) {
-    return ``;
-  }
+const createTaskTemplate = (task) => {
+  const {description, tags, dueDate, color, repeatingDays} = task;
 
-  const taskDate = formatDate(dueDate);
-  const taskTime = formatTime(dueDate);
+  const isExpired = dueDate instanceof Date && dueDate < Date.now();
+  const isDateShowing = !!dueDate;
 
-  return (
-    `<div class="card__dates">
-      <div class="card__date-deadline">
-        <p class="card__input-deadline-wrap">
-          <span class="card__date">${taskDate}</span>
-          <span class="card__time">${taskTime}</span>
-        </p>
-      </div>
-    </div>`
-  );
-};
+  const date = isDateShowing ? formatDate(dueDate) : ``;
+  const time = isDateShowing ? formatTime(dueDate) : ``;
 
-const createTaskTemplate = ({description, dueDate, repeatingDays, tags, color}) => {
-  const hasDueDate = Boolean(dueDate);
+  const hashtags = createHashtagsMarkup(Array.from(tags));
+  const editButton = createButtonMarkup(`edit`, true);
+  const archiveButton = createButtonMarkup(`archive`, task.isArchive);
+  const favoritesButton = createButtonMarkup(`favorites`, task.isFavorite);
 
-  const hasRepeatingDaysClass = (!hasDueDate && Object.values(repeatingDays).some(Boolean)) ? `card--repeat` : ``;
-  const deadlineClass = isOverdue(dueDate) ? `card--deadline` : ``;
+  const repeatClass = Object.values(repeatingDays).some(Boolean) ? `card--repeat` : ``;
+  const deadlineClass = isExpired ? `card--deadline` : ``;
 
   return (
-    `<article class="card card--${color} ${hasRepeatingDaysClass} ${deadlineClass}">
+    `<article class="card card--${color} ${repeatClass} ${deadlineClass}">
       <div class="card__form">
         <div class="card__inner">
           <div class="card__control">
-            <button type="button" class="card__btn card__btn--edit">
-              edit
-            </button>
-            <button type="button" class="card__btn card__btn--archive">
-              archive
-            </button>
-            <button
-              type="button"
-              class="card__btn card__btn--favorites card__btn--disabled"
-            >
-              favorites
-            </button>
+            ${editButton}
+            ${archiveButton}
+            ${favoritesButton}
           </div>
 
           <div class="card__color-bar">
@@ -83,8 +65,19 @@ const createTaskTemplate = ({description, dueDate, repeatingDays, tags, color}) 
 
           <div class="card__settings">
             <div class="card__details">
-              ${createDueDateTemplate(dueDate)}
-              ${createHashtagsTemplate(tags)}
+              <div class="card__dates">
+                <div class="card__date-deadline">
+                  <p class="card__input-deadline-wrap">
+                    <span class="card__date">${date}</span>
+                    <span class="card__time">${time}</span>
+                  </p>
+                </div>
+              </div>
+              <div class="card__hashtag">
+                <div class="card__hashtag-list">
+                  ${hashtags}
+                </div>
+              </div>
             </div>
           </div>
         </div>

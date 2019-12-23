@@ -1,6 +1,6 @@
-export const colors = [`black`, `yellow`, `blue`, `green`, `pink`];
+export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
 
-export const days = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
+export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
 export const tags = [`homework`, `theory`, `practice`, `intensive`, `keks`];
 
