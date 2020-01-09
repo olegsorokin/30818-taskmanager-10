@@ -8,7 +8,7 @@ import TaskController from './task';
 const TASKS_PER_PAGE = 8;
 
 const renderTasks = (taskListElement, tasks, onDataChange, onViewChange) => {
-  tasks.map((task) => {
+  return tasks.map((task) => {
     const taskController = new TaskController(taskListElement, onDataChange, onViewChange);
     taskController.render(task);
 
@@ -68,6 +68,8 @@ export default class BoardController {
     this._loadMoreButtonComponent.setClickHandler(() => {
       const prevTasksCount = this._showingTasksCount;
       const taskListElement = this._tasksComponent.getElement();
+
+      this._showingTasksCount = this._showingTasksCount + this._showingTasksCount;
 
       const newTasks = renderTasks(taskListElement, this._tasks.slice(prevTasksCount, this._showingTasksCount), this._onDataChange, this._onViewChange);
       this._showedTaskControllers = this._showedTaskControllers.concat(newTasks);
