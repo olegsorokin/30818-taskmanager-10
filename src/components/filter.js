@@ -1,21 +1,21 @@
-import {generateFilter} from '../mock/filter';
+import {generateFilters} from '../mock/filter';
 import AbstractComponent from './abstract-component';
 
 const createFilterMarkup = (tasks) => {
   return (
-    generateFilter(tasks)
-      .map(({title, count}) => {
+    generateFilters(tasks)
+      .map(({name, count}) => {
         return (
           `<input
             type="radio"
-            id="filter__${title}"
+            id="filter__${name}"
             class="filter__input visually-hidden"
             name="filter"
-            ${title === `all` ? `checked` : ``}
+            ${name === `all` ? `checked` : ``}
             ${count ? `` : `disabled`}
           />
-          <label for="filter__${title}" class="filter__label">
-            ${title} <span class="filter__${title}-count">${count}</span></label
+          <label for="filter__${name}" class="filter__label">
+            ${name} <span class="filter__${name}-count">${count}</span></label
           >`
         );
       })
