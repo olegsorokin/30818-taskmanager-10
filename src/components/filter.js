@@ -39,4 +39,6 @@ export default class Filter extends AbstractComponent {
   getTemplate() {
     return createFilterTemplate(this._tasks);
   }
+
+  setFilterChangeHandler() {} // TODO: Add the logic
 }

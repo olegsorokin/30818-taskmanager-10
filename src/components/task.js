@@ -1,4 +1,4 @@
-import {formatDate, formatTime} from '../utils/date-time';
+import {formatDate, formatTime} from '../utils/common';
 import AbstractComponent from './abstract-component';
 
 const createHashtagsMarkup = (hashtags) => {

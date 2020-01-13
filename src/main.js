@@ -2,6 +2,7 @@ import SiteMenuComponent from './components/site-menu';
 import FilterComponent from './components/filter';
 import BoardComponent from './components/board';
 import BoardController from './controllers/board';
+import FilterController from './controllers/filter';
 import TasksModel from './models/tasks';
 import {generateTasks} from './mock/task';
 import {render, RenderPosition} from './utils/render';

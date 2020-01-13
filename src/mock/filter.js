@@ -1,11 +1,11 @@
-import {isOverdue, isToday} from '../utils/date-time';
+import {isOverdueDate, isOneDay} from '../utils/common';
 
 const calculateOverdueTasksCount = (tasks) => {
-  return tasks.filter((task) => isOverdue(task.dueDate)).length;
+  return tasks.filter((task) => isOverdueDate(task.dueDate)).length;
 };
 
 const calculateTodayTasksCount = (tasks) => {
-  return tasks.filter((task) => isToday(task.dueDate)).length;
+  return tasks.filter((task) => isOneDay(task.dueDate)).length;
 };
 
 const calculateFavoritesTasksCount = (tasks) => {

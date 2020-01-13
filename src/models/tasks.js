@@ -7,6 +7,8 @@ export default class Tasks {
     return this._tasks;
   }
 
+  getTasksAll() {}
+
   setTasks(tasks) {
     this._tasks = Array.from(tasks);
   }
@@ -22,4 +24,6 @@ export default class Tasks {
 
     return true;
   }
+
+  setFilter() {} // TODO: Add the logic
 }
