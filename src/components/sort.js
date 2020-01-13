@@ -1,4 +1,4 @@
-import AbstractComponent from './abstract-component';
+import AbstractComponent from './abstract-component.js';
 
 export const SortType = {
   DATE_DOWN: `date-down`,
@@ -9,12 +9,13 @@ export const SortType = {
 const createSortTemplate = () => {
   return (
     `<div class="board__filter-list">
-      <a href="#" data-sort-type="${SortType.DEFAULT}"  class="board__filter">SORT BY DEFAULT</a>
-      <a href="#" data-sort-type="${SortType.DATE_UP}"  class="board__filter">SORT BY DATE up</a>
-      <a href="#" data-sort-type="${SortType.DATE_DOWN}"  class="board__filter">SORT BY DATE down</a>
+      <a href="#" data-sort-type="${SortType.DEFAULT}" class="board__filter">SORT BY DEFAULT</a>
+      <a href="#" data-sort-type="${SortType.DATE_UP}" class="board__filter">SORT BY DATE up</a>
+      <a href="#" data-sort-type="${SortType.DATE_DOWN}" class="board__filter">SORT BY DATE down</a>
     </div>`
   );
 };
+
 
 export default class Sort extends AbstractComponent {
   constructor() {
@@ -28,14 +29,14 @@ export default class Sort extends AbstractComponent {
   }
 
   setSortTypeChangeHandler(handler) {
-    this.getElement().addEventListener(`click`, (event) => {
-      event.preventDefault();
+    this.getElement().addEventListener(`click`, (evt) => {
+      evt.preventDefault();
 
-      if (event.target.tagName !== `A`) {
+      if (evt.target.tagName !== `A`) {
         return;
       }
 
-      const sortType = event.target.dataset.sortType;
+      const sortType = evt.target.dataset.sortType;
 
       if (this._currenSortType === sortType) {
         return;

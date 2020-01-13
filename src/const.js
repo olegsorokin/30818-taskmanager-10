@@ -1,10 +1,35 @@
-export const COLORS = [`black`, `yellow`, `blue`, `green`, `pink`];
+export const COLOR = {
+  BLACK: `black`,
+  YELLOW: `yellow`,
+  BLUE: `blue`,
+  GREEN: `green`,
+  PINK: `pink`,
+};
+
+export const COLORS = [
+  COLOR.BLACK,
+  COLOR.YELLOW,
+  COLOR.BLUE,
+  COLOR.GREEN,
+  COLOR.PINK
+];
 
 export const DAYS = [`mo`, `tu`, `we`, `th`, `fr`, `sa`, `su`];
 
-export const tags = [`homework`, `theory`, `practice`, `intensive`, `keks`];
-
-export const taskDescriptions = [`Изучить теорию`, `Сделать домашку`, `Пройти интенсив на соточку`];
+export const MONTH_NAMES = [
+  `January`,
+  `February`,
+  `March`,
+  `April`,
+  `May`,
+  `June`,
+  `July`,
+  `August`,
+  `September`,
+  `October`,
+  `November`,
+  `December`,
+];
 
 export const FilterType = {
   ALL: `all`,

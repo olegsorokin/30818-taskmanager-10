@@ -1,26 +1,35 @@
-import SiteMenuComponent from './components/site-menu';
-import FilterComponent from './components/filter';
-import BoardComponent from './components/board';
-import BoardController from './controllers/board';
-import FilterController from './controllers/filter';
-import TasksModel from './models/tasks';
-import {generateTasks} from './mock/task';
-import {render, RenderPosition} from './utils/render';
+import BoardComponent from './components/board.js';
+import BoardController from './controllers/board.js';
+import FilterController from './controllers/filter.js';
+import SiteMenuComponent from './components/site-menu.js';
+import TasksModel from './models/tasks.js';
+import {generateTasks} from './mock/task.js';
+import {render, RenderPosition} from './utils/render.js';
 
 const TASK_COUNT = 22;
+
+const siteMainElement = document.querySelector(`.main`);
+const siteHeaderElement = siteMainElement.querySelector(`.main__control`);
+const siteMenuComponent = new SiteMenuComponent();
+
+// Быстрое решение для подписки на клик по кнопке.
+// Это противоречит нашей архитектуре работы с DOM-элементами, но это временное решение.
+// Совсем скоро мы создадим полноценный компонент для работы с меню.
+siteMenuComponent.getElement().querySelector(`.control__label--new-task`)
+  .addEventListener(`click`, () => {
+    boardController.createTask();
+  });
+
+render(siteHeaderElement, siteMenuComponent, RenderPosition.BEFOREEND);
 const tasks = generateTasks(TASK_COUNT);
-
-const pageMain = document.querySelector(`.main`);
-const pageControl = document.querySelector(`.main__control`);
-
-render(pageControl, new SiteMenuComponent(), RenderPosition.BEFOREEND);
-render(pageMain, new FilterComponent(tasks), RenderPosition.BEFOREEND);
-
-const boardComponent = new BoardComponent();
-render(pageMain, boardComponent, RenderPosition.BEFOREEND);
-
 const tasksModel = new TasksModel();
 tasksModel.setTasks(tasks);
+
+const filterController = new FilterController(siteMainElement, tasksModel);
+filterController.render();
+
+const boardComponent = new BoardComponent();
+render(siteMainElement, boardComponent, RenderPosition.BEFOREEND);
 
 const boardController = new BoardController(boardComponent, tasksModel);
 
