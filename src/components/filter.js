@@ -1,42 +1,53 @@
-import {generateFilter} from '../mock/filter';
-import AbstractComponent from './abstract-component';
+import AbstractComponent from './abstract-component.js';
 
-const createFilterMarkup = (tasks) => {
+const FILTER_ID_PREFIX = `filter__`;
+
+const getFilterNameById = (id) => {
+  return id.substring(FILTER_ID_PREFIX.length);
+};
+
+const createFilterMarkup = (filter, isChecked) => {
+  const {name, count} = filter;
+
   return (
-    generateFilter(tasks)
-      .map(({title, count}) => {
-        return (
-          `<input
-            type="radio"
-            id="filter__${title}"
-            class="filter__input visually-hidden"
-            name="filter"
-            ${title === `all` ? `checked` : ``}
-            ${count ? `` : `disabled`}
-          />
-          <label for="filter__${title}" class="filter__label">
-            ${title} <span class="filter__${title}-count">${count}</span></label
-          >`
-        );
-      })
-      .join(`\n`)
+    `<input
+        type="radio"
+        id="filter__${name}"
+        class="filter__input visually-hidden"
+        name="filter"
+        ${isChecked ? `checked` : ``}
+      />
+      <label for="filter__${name}" class="filter__label">
+        ${name} <span class="filter__${name}-count">${count}</span>
+      </label>`
   );
 };
 
-const createFilterTemplate = (tasks) => {
+const createFilterTemplate = (filters) => {
+  const filtersMarkup = filters.map((it) => createFilterMarkup(it, it.checked)).join(`\n`);
+
   return (
-    `<section class="main__filter filter container">${createFilterMarkup(tasks)}</section>`
+    `<section class="main__filter filter container">
+      ${filtersMarkup}
+    </section>`
   );
 };
 
 export default class Filter extends AbstractComponent {
-  constructor(tasks) {
+  constructor(filters) {
     super();
 
-    this._tasks = tasks;
+    this._filters = filters;
   }
 
   getTemplate() {
-    return createFilterTemplate(this._tasks);
+    return createFilterTemplate(this._filters);
+  }
+
+  setFilterChangeHandler(handler) {
+    this.getElement().addEventListener(`change`, (evt) => {
+      const filterName = getFilterNameById(evt.target.id);
+      handler(filterName);
+    });
   }
 }
